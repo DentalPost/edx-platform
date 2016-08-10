@@ -77,11 +77,11 @@ def common_doc_url(request, config_file_object):  # pylint: disable=unused-argum
             # documentation. Base URLs will always be different. The
             # document path might be different.
             if settings.USE_EDX_PARTNER_DOCUMENTATION:
-                print("I'm edx.org!" + settings.USE_EDX_PARTNER_DOCUMENTATION)
+                print("I'm edx.org!" + str(settings.USE_EDX_PARTNER_DOCUMENTATION))
                 doc_base_url=get_config_value_with_override_section("help_settings", "url_base", "help_settings_edx_partner_overrides")
                 doc_page_path=get_config_value_with_override_section("pages", page_token, "pages_edx_partner_overrides")
             else:
-                print("I'm Open edX!" + settings.USE_EDX_PARTNER_DOCUMENTATION)
+                print("I'm Open edX!" + str(settings.USE_EDX_PARTNER_DOCUMENTATION))
                 doc_base_url=config_file_object.get("help_settings", "url_base")
                 doc_page_path=get_config_value_with_default("pages", page_token)
 
