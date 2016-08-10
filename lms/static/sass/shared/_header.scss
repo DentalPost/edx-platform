@@ -177,6 +177,17 @@
       }
     }
 
+    .doc-link {
+      padding: 0;
+      position: relative;
+      text-transform: none;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 0;
+      @include float(right);
+      @include margin(($baseline*0.75), ($baseline/6), ($baseline*0.75), ($baseline*0.75));
+    }
+
     .dropdown {
       font-size: $body-font-size;
       padding: 0 ($baseline/2);
