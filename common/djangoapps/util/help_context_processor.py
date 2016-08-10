@@ -76,7 +76,7 @@ def common_doc_url(request, config_file_object):  # pylint: disable=unused-argum
             # for edX partner documentation. If not, return Open edX
             # documentation. Base URLs will always be different. The
             # document path might be different.
-            if settings.USE_OPEN_EDX_DOCUMENTATION = true:
+            if settings.USE_OPEN_EDX_DOCUMENTATION = True:
                 print("I'm Open edX!")
                 doc_base_url=config_file_object.get("help_settings", "url_base")
                 doc_page_path=get_config_value_with_default("pages", page_token)
@@ -98,7 +98,7 @@ def common_doc_url(request, config_file_object):  # pylint: disable=unused-argum
             Returns:
                 The URL for the PDF document using the pdf_settings and the help_settings (version) in the configuration
             """
-            if settings.USE_OPEN_EDX_DOCUMENTATION = true:
+            if settings.USE_OPEN_EDX_DOCUMENTATION = True:
                 pdf_base_url=config_file_object.get("pdf_settings", "pdf_base")
                 pdf_file_name=config_file_object.get("pdf_settings", "pdf_file")
             else:
