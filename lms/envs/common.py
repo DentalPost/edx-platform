@@ -2952,6 +2952,6 @@ AFFILIATE_COOKIE_NAME = 'affiliate_id'
 REDIRECT_CACHE_TIMEOUT = None  # The length of time we cache Redirect model data
 REDIRECT_CACHE_KEY_PREFIX = 'redirects'
 
-############## Settings for LMS and Studio Context Sensitive Help ##############
+############## Settings for LMS Context Sensitive Help ##############
 
 USE_EDX_PARTNER_DOCUMENTATION = False
