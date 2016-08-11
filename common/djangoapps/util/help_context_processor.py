@@ -114,7 +114,7 @@ def common_doc_url(request, config_file_object):  # pylint: disable=unused-argum
                     "help_settings_edx_partner_overrides"
                 )
                 pdf_file_name = get_config_value_with_override_section(
-                    "pages", 
+                    "pages",
                     page_token,
                     "pages_edx_partner_overrides"
                 )
