@@ -12,7 +12,10 @@ CONFIG_FILE = open(settings.REPO_ROOT / "docs" / "lms_config.ini")
 CONFIG = ConfigParser.ConfigParser()
 CONFIG.readfp(CONFIG_FILE)
 
+
 def doc_url(request=None):  # pylint: disable=unused-argument
+
+
     """
     This function is added in the list of TEMPLATES 'context_processors' OPTION, which is a django setting for
     a tuple of callables that take a request object as their argument and return a dictionary of items
@@ -24,4 +27,6 @@ def doc_url(request=None):  # pylint: disable=unused-argument
         request: Currently not used, but is passed by django to context processors.
             May be used in the future for determining the language of choice.
     """
+
+
     return common_doc_url(request, CONFIG)

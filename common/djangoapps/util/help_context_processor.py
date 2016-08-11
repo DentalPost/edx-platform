@@ -12,6 +12,8 @@ log = logging.getLogger(__name__)
 
 
 def common_doc_url(request, config_file_object):  # pylint: disable=unused-argument
+
+
     """
     This function is added in the list of TEMPLATES 'context_processors' OPTION, which is a django setting for
     a tuple of callables that take a request object as their argument and return a dictionary of items
@@ -80,9 +82,9 @@ def common_doc_url(request, config_file_object):  # pylint: disable=unused-argum
             # documentation. Base URLs will always be different. The
             # document path might be different.
             if settings.USE_EDX_PARTNER_DOCUMENTATION:
-                doc_base_url = get_config_value_with_override_section("help_settings", 
+                doc_base_url = get_config_value_with_override_section("help_settings",
                     "url_base", "help_settings_edx_partner_overrides")
-                doc_page_path = get_config_value_with_override_section("pages", page_token, 
+                doc_page_path = get_config_value_with_override_section("pages", page_token,
                     "pages_edx_partner_overrides")
             else:
                 doc_base_url = config_file_object.get("help_settings", "url_base")
@@ -99,17 +101,17 @@ def common_doc_url(request, config_file_object):  # pylint: disable=unused-argum
         def get_pdf_url():
             """
             Returns:
-                The URL for the PDF document using the pdf_settings and the 
+                The URL for the PDF document using the pdf_settings and the
                 help_settings (version) in the configuration
             """
             if settings.USE_EDX_PARTNER_DOCUMENTATION:
-                pdf_base_url = get_config_value_with_override_section("help_settings", 
-                "url_base", "help_settings_edx_partner_overrides")
-                pdf_file_name = get_config_value_with_override_section("pages", page_token, 
-                "pages_edx_partner_overrides")
+                pdf_base_url = get_config_value_with_override_section("help_settings",
+                    "url_base", "help_settings_edx_partner_overrides")
+                pdf_file_name = get_config_value_with_override_section("pages", page_token,
+                    "pages_edx_partner_overrides")
             else:
-                pdf_base_url=config_file_object.get("pdf_settings", "pdf_base")
-                pdf_file_name=config_file_object.get("pdf_settings", "pdf_file")
+                pdf_base_url = config_file_object.get("pdf_settings", "pdf_base")
+                pdf_file_name = config_file_object.get("pdf_settings", "pdf_file")
 
             return "{pdf_base}/{version}/{pdf_file}".format(
                 pdf_base=pdf_base_url,
