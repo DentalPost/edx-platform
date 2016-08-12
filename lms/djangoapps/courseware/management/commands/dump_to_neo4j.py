@@ -91,7 +91,7 @@ class ModuleStoreSerializer(object):
             for field_name, value in fields.iteritems():
                 fields[field_name] = self.coerce_types(value)
 
-            node = Node(label, **fields)
+            node = Node(label, 'item', **fields)
             nodes.append(node)
             location_to_node[item.location] = node
 
@@ -136,6 +136,7 @@ class Command(BaseCommand):
     """
     Command to dump modulestore data to neo4j
     """
+
     @staticmethod
     def add_to_transaction(neo4j_entities, transaction):
         """
@@ -164,8 +165,6 @@ class Command(BaseCommand):
 
         mss = ModuleStoreSerializer()
 
-        log.info("deleting existing coursegraph data")
-        graph.delete_all()
         total_number_of_courses = len(mss.all_courses)
 
         for index, course in enumerate(mss.all_courses):
@@ -179,10 +178,23 @@ class Command(BaseCommand):
                 total_number_of_courses
             )
             nodes, relationships = mss.serialize_course(course.id)
+            log.info(
+                u"%d nodes and %d relationships in %s",
+                len(nodes),
+                len(relationships),
+                course.id
+            )
 
             transaction = graph.begin()
-
             try:
+                # first, delete existing course
+                transaction.run(
+                    u"MATCH (n:item) WHERE n.course_key='{}' DETACH DELETE n".format(
+                        unicode(course.id)
+                    )
+                )
+
+                # now, re-add it
                 self.add_to_transaction(nodes, transaction)
                 self.add_to_transaction(relationships, transaction)
                 transaction.commit()

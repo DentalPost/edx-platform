@@ -50,7 +50,6 @@ class TestDumpToNeo4jCommand(TestDumpToNeo4jCommandBase):
 
         call_command('dump_to_neo4j')
 
-        self.assertEqual(mock_graph.delete_all.call_count, 1)
         self.assertEqual(mock_graph.begin.call_count, 2)
         self.assertEqual(mock_transaction.commit.call_count, 2)
         self.assertEqual(mock_transaction.rollback.call_count, 0)
@@ -58,6 +57,7 @@ class TestDumpToNeo4jCommand(TestDumpToNeo4jCommandBase):
         # 7 nodes + 9 relationships from the first course
         # 2 nodes and no relationships from the second
         self.assertEqual(mock_transaction.create.call_count, 18)
+        self.assertEqual(mock_transaction.run.call_count, 2)
 
     @mock.patch('courseware.management.commands.dump_to_neo4j.Graph')
     def test_dump_to_neo4j_rollback(self, mock_graph_class):
@@ -68,11 +68,10 @@ class TestDumpToNeo4jCommand(TestDumpToNeo4jCommandBase):
         mock_graph = mock_graph_class.return_value
         mock_transaction = mock.Mock()
         mock_graph.begin.return_value = mock_transaction
-        mock_transaction.create.side_effect = ValueError('Something went wrong!')
+        mock_transaction.run.side_effect = ValueError('Something went wrong!')
 
         call_command('dump_to_neo4j')
 
-        self.assertEqual(mock_graph.delete_all.call_count, 1)
         self.assertEqual(mock_graph.begin.call_count, 2)
         self.assertEqual(mock_transaction.commit.call_count, 0)
         self.assertEqual(mock_transaction.rollback.call_count, 2)
