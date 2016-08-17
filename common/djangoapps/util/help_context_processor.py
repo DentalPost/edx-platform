@@ -54,51 +54,25 @@ def common_doc_url(request, config_file_object):  # pylint: disable=unused-argum
                               section_name, option)
             return config_file_object.get(section_name, default_option)
 
-        def get_config_value_with_override_section(section_name, option, override_section_name):
-            """
-            Args:
-                section_name: name of the section in the configuration from which the option should be found
-                option: name of the configuration option
-                override_section: name of the section in the configuration that may contain an overriding property
-            """
-            if option:
-                try:
-                    # If the property is in the override section, use its value.
-                    return config_file_object.get(override_section_name, option)
-                except (ConfigParser.NoOptionError, AttributeError):
-                    # If the property is not in the override section, get its
-                    # value from the primary configuration section.
-                    return get_config_value_with_default(section_name, option)
-
         def get_doc_url():
             """
             Returns:
                 The URL for the documentation
             """
-            # If the LMS is used for edx.org, return documentation URLs
-            # for edX partner documentation. If not, return Open edX
-            # documentation. Base URLs will always be different. The
-            # document path might be different.
-            if settings.USE_EDX_PARTNER_DOCUMENTATION:
-                doc_base_url = get_config_value_with_override_section(
-                    "help_settings",
-                    "url_base",
-                    "help_settings_edx_partner_overrides"
-                )
-                doc_page_path = get_config_value_with_override_section(
-                    "pages", page_token,
-                    "pages_edx_partner_overrides"
-                )
+
+            # Read an optional configuration property that sets the base
+            # URL of documentation links.
+            if settings.DOC_LINK_BASE_URL:
+                doc_base_url = settings.DOC_LINK_BASE_URL
             else:
                 doc_base_url = config_file_object.get("help_settings", "url_base")
-                doc_page_path = get_config_value_with_default("pages", page_token)
 
             # Construct and return the URL for the documentation link.
             return "{url_base}/{language}/{version}/{page_path}".format(
                 url_base=doc_base_url,
                 language=get_config_value_with_default("locales", settings.LANGUAGE_CODE),
                 version=config_file_object.get("help_settings", "version"),
-                page_path=doc_page_path,
+                page_path=get_config_value_with_default("pages", page_token),
             )
 
         def get_pdf_url():
@@ -107,25 +81,18 @@ def common_doc_url(request, config_file_object):  # pylint: disable=unused-argum
                 The URL for the PDF document using the pdf_settings and the
                 help_settings (version) in the configuration
             """
-            if settings.USE_EDX_PARTNER_DOCUMENTATION:
-                pdf_base_url = get_config_value_with_override_section(
-                    "help_settings",
-                    "url_base",
-                    "help_settings_edx_partner_overrides"
-                )
-                pdf_file_name = get_config_value_with_override_section(
-                    "pages",
-                    page_token,
-                    "pages_edx_partner_overrides"
-                )
+
+            # Read an optional configuration property that sets the base
+            # URL of pdf links.
+            if settings.DOC_LINK_BASE_URL:
+                pdf_base_url = settings.DOC_LINK_BASE_URL
             else:
                 pdf_base_url = config_file_object.get("pdf_settings", "pdf_base")
-                pdf_file_name = config_file_object.get("pdf_settings", "pdf_file")
 
             return "{pdf_base}/{version}/{pdf_file}".format(
                 pdf_base=pdf_base_url,
                 version=config_file_object.get("help_settings", "version"),
-                pdf_file=pdf_file_name,
+                pdf_file=config_file_object.get("pdf_settings", "pdf_file"),
             )
 
         return {
