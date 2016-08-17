@@ -2954,4 +2954,4 @@ REDIRECT_CACHE_KEY_PREFIX = 'redirects'
 
 ############## Settings for LMS Context Sensitive Help ##############
 
-USE_EDX_PARTNER_DOCUMENTATION = False
+DOC_LINK_BASE_URL = False
