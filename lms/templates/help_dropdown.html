@@ -1,0 +1,45 @@
+## mako
+<%page expression_filter="h"/>
+<%namespace name='static' file='static_content.html'/>
+
+<%!
+from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext as _
+
+from openedx.core.djangoapps.user_api.accounts.image_helpers import get_profile_image_urls_for_user
+%>
+
+% if uses_pattern_library:
+    <div class="wrapper-user-menu dropdown-menu-container logged-in js-header-user-menu">
+        <a href="${get_online_help_info(online_help_token)['doc_url']}" class="menu-title">
+            <span class="sr-only">${_("Help")}</span>
+        </a>
+        <button type="button" class="menu-button button-more has-dropdown js-dropdown-button" aria-haspopup="true" aria-expanded="false" aria-controls="${_("Usermenu")}">
+              <span class="icon fa fa-caret-down" aria-hidden="true"></span>
+              <span class="sr-only">${_("Usermenu dropdown")}</span>
+        </button>
+        <ul class="dropdown-menu list-divided is-hidden" id="${_("Helpmenu")}" tabindex="-1">
+            <%block name="help_dropdown_menu_links" >
+                <li class="dropdown-item item has-block-link">
+                    <a href="${get_online_help_info(online_help_token)['doc_url']}" 
+                       class="action">${_("Documentation")}</a></li>
+                <li class="dropdown-item item has-block-link">
+                    <a href="${reverse('learner_profile', kwargs={'username': user.username})}" class="action">${_("Support")}</a></li>
+            </%block>
+        </ul>
+    </div>
+% else:
+    <ol class="user">
+        <li class="primary">
+            <a href="${get_online_help_info(online_help_token)['doc_url']}" class="user-link">
+                <div class="label-username">Help</div>
+            </a>
+        </li>
+        <li class="primary">
+            <button class="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr">${_("Help dropdown")}</span><span class="fa fa-sort-desc" aria-hidden="true"></span></button>
+            <ul class="dropdown-menu" aria-label="Help" role="menu">
+                ${help_dropdown_menu_links()}
+            </ul>
+        </li>
+    </ol>
+% endif
