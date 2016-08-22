@@ -73,6 +73,6 @@
     <div class="capa_alert">${submitted_message}</div>
     %endif
     % if msg:
-    <span class="message">${msg|n}</span>
+    <span class="message" aria-describedby="answer_${id}-legend" tabindex="-1">${msg|n}</span>
     % endif
 </form>
