@@ -1,6 +1,7 @@
 """
 Commerce-related models.
 """
+from django.contrib.sites.models import Site
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -35,8 +36,15 @@ class CommerceConfiguration(ConfigurationModel):
     )
     receipt_page = models.CharField(
         max_length=255,
-        default='/commerce/checkout/receipt/?orderNum=',
+        default='/checkout/receipt/?orderNum=',
         help_text=_('Path to order receipt page.')
+    )
+    site = models.ForeignKey(
+        Site,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='commerce_configuration'
     )
 
     def __unicode__(self):

@@ -331,6 +331,8 @@ def get_user_orders(user):
         commerce_configuration, user, 'orders', api=api, querystring=user_query, cache_key=cache_key
     )
 
+    commerce_root = commerce_configuration.site or settings.ECOMMERCE_PUBLIC_URL_ROOT
+
     for order in commerce_user_orders:
         if order['status'].lower() == 'complete':
             for line in order['lines']:
@@ -347,7 +349,11 @@ def get_user_orders(user):
                                     'order_date': strftime_localized(
                                         date_placed.replace(tzinfo=pytz.UTC), 'SHORT_DATE'
                                     ),
-                                    'receipt_url': commerce_configuration.receipt_page + order['number']
+                                    'receipt_url': '{root}{receipt_page_url}{order_number}'.format(
+                                        root=commerce_root,
+                                        receipt_page_url=commerce_configuration.receipt_page,
+                                        order_number=order['number']
+                                    )
                                 }
                                 user_orders.append(order_data)
                             except KeyError:
