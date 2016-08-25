@@ -23,7 +23,6 @@
     @include margin(($baseline*0.75), ($baseline*0.75), ($baseline*0.75), ($baseline*0.75));
   }
 
-
   .wrapper-header {
     @include clearfix();
     height: 40px;
