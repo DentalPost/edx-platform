@@ -309,7 +309,7 @@ def _external_auth_intercept(request, mode):
         return external_auth_register(request)
 
 
-def get_user_orders(user):
+def get_user_orders(user, site):
     """Given a user, get the detail of all the orders from the Ecommerce service.
 
     Arguments:
@@ -331,7 +331,7 @@ def get_user_orders(user):
         commerce_configuration, user, 'orders', api=api, querystring=user_query, cache_key=cache_key
     )
 
-    commerce_root = commerce_configuration.site or settings.ECOMMERCE_PUBLIC_URL_ROOT
+    receipt_page_url = commerce_configuration.get_receipt_page_url()
 
     for order in commerce_user_orders:
         if order['status'].lower() == 'complete':
@@ -349,9 +349,8 @@ def get_user_orders(user):
                                     'order_date': strftime_localized(
                                         date_placed.replace(tzinfo=pytz.UTC), 'SHORT_DATE'
                                     ),
-                                    'receipt_url': '{root}{receipt_page_url}{order_number}'.format(
-                                        root=commerce_root,
-                                        receipt_page_url=commerce_configuration.receipt_page,
+                                    'receipt_url': '{receipt_page_url}{order_number}'.format(
+                                        receipt_page_url=receipt_page_url,
                                         order_number=order['number']
                                     )
                                 }
@@ -432,7 +431,7 @@ def account_settings_context(request):
 
     year_of_birth_options = [(unicode(year), unicode(year)) for year in UserProfile.VALID_YEARS]
     try:
-        user_orders = get_user_orders(user)
+        user_orders = get_user_orders(user, request.site)
     except:  # pylint: disable=bare-except
         log.exception('Error fetching order history from Otto.')
         # Return empty order list as account settings page expect a list and

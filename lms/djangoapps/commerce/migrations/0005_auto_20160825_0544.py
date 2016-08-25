@@ -13,14 +13,13 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.RemoveField(
+            model_name='commerceconfiguration',
+            name='receipt_page',
+        ),
         migrations.AddField(
             model_name='commerceconfiguration',
             name='site',
             field=models.ForeignKey(related_name='commerce_configuration', on_delete=django.db.models.deletion.SET_NULL, blank=True, to='sites.Site', null=True),
-        ),
-        migrations.AlterField(
-            model_name='commerceconfiguration',
-            name='receipt_page',
-            field=models.CharField(default=b'/checkout/receipt/?orderNum=', help_text='Path to order receipt page.', max_length=255),
         ),
     ]

@@ -7,6 +7,7 @@ from django.db import models
 from django.contrib.sites.models import Site
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils.translation import ugettext_lazy as _
 
 from django_extensions.db.models import TimeStampedModel
 from jsonfield.fields import JSONField
@@ -31,6 +32,11 @@ class SiteConfiguration(models.Model):
         null=False,
         blank=True,
         load_kwargs={'object_pairs_hook': collections.OrderedDict}
+    )
+    receipt_page = models.CharField(
+        max_length=255,
+        default='/commerce/checkout/receipt/?orderNum=',
+        help_text=_('Path to order receipt page.')
     )
 
     def __unicode__(self):

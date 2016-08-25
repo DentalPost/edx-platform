@@ -5,7 +5,11 @@ from django.contrib.sites.models import Site
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from openedx.core.djangoapps.site_configuration.models import SiteConfiguration
 from config_models.models import ConfigurationModel
+
+from logging import getLogger
+logger = getLogger(__name__)  # pylint: disable=invalid-name
 
 
 class CommerceConfiguration(ConfigurationModel):
@@ -34,11 +38,6 @@ class CommerceConfiguration(ConfigurationModel):
             'Specified in seconds. Enable caching by setting this to a value greater than 0.'
         )
     )
-    receipt_page = models.CharField(
-        max_length=255,
-        default='/checkout/receipt/?orderNum=',
-        help_text=_('Path to order receipt page.')
-    )
     site = models.ForeignKey(
         Site,
         on_delete=models.SET_NULL,
@@ -49,6 +48,25 @@ class CommerceConfiguration(ConfigurationModel):
 
     def __unicode__(self):
         return "Commerce configuration"
+
+    def get_receipt_page_url(self):
+        """
+        Return absolute receipt page URL.
+
+        Returns:
+            Absolute receipt page URL, consisting of site domain and site receipt page.
+        """
+        site = self.site
+        if site:
+            try:
+                site_configuration = SiteConfiguration.objects.get(site=site)
+                return '{site_domain}{receipt_page}'.format(
+                    site_domain=site.domain,
+                    receipt_page=site_configuration.receipt_page
+                )
+            except SiteConfiguration.DoesNotExist:
+                logger.info("Site Configuration is not enabled for site (%s).", self.site)
+        return '/commerce/checkout/receipt/?orderNum='
 
     @property
     def is_cache_enabled(self):
