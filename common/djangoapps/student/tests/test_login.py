@@ -171,12 +171,8 @@ class LoginTest(CacheIsolationTestCase):
         cookie = self.client.cookies[settings.EDXMKTG_USER_INFO_COOKIE_NAME]
         user_info = json.loads(cookie.value)
 
-        # Check that the version is set
         self.assertEqual(user_info["version"], settings.EDXMKTG_USER_INFO_COOKIE_VERSION)
-
-        # Check that the username and email are set
         self.assertEqual(user_info["username"], self.user.username)
-        self.assertEqual(user_info["email"], self.user.email)
 
         # Check that the URLs are absolute
         for url in user_info["header_urls"].values():
