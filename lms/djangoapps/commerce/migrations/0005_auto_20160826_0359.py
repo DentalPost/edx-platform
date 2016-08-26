@@ -20,6 +20,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='commerceconfiguration',
             name='site',
-            field=models.ForeignKey(related_name='commerce_configuration', on_delete=django.db.models.deletion.SET_NULL, blank=True, to='sites.Site', null=True),
+            field=models.ForeignKey(related_name='commerceconfiguration', on_delete=django.db.models.deletion.SET_NULL, blank=True, to='sites.Site', null=True),
         ),
     ]

@@ -5,7 +5,6 @@ from django.contrib.sites.models import Site
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from openedx.core.djangoapps.site_configuration.models import SiteConfiguration
 from config_models.models import ConfigurationModel
 
 from logging import getLogger
@@ -43,7 +42,7 @@ class CommerceConfiguration(ConfigurationModel):
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
-        related_name='commerce_configuration'
+        related_name='commerceconfiguration'
     )
 
     def __unicode__(self):
@@ -59,13 +58,12 @@ class CommerceConfiguration(ConfigurationModel):
         site = self.site
         if site:
             try:
-                site_configuration = SiteConfiguration.objects.get(site=site)
                 return '{site_domain}{receipt_page}'.format(
                     site_domain=site.domain,
-                    receipt_page=site_configuration.receipt_page
+                    receipt_page=site.configuration.receipt_page
                 )
-            except SiteConfiguration.DoesNotExist:
-                logger.info("Site Configuration is not enabled for site (%s).", self.site)
+            except AttributeError:
+                logger.info("Site Configuration is not enabled for site (%s).", site)
         return '/commerce/checkout/receipt/?orderNum='
 
     @property
