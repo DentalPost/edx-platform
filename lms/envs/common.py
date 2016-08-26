@@ -2954,4 +2954,4 @@ REDIRECT_CACHE_KEY_PREFIX = 'redirects'
 
 ############## Settings for LMS Context Sensitive Help ##############
 
-DOC_LINK_BASE_URL = False
+DOC_LINK_BASE_URL = None

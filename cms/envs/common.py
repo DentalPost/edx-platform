@@ -1199,4 +1199,4 @@ AFFILIATE_COOKIE_NAME = 'affiliate_id'
 
 ############## Settings for Studio Context Sensitive Help ##############
 
-DOC_LINK_BASE_URL = False
+DOC_LINK_BASE_URL = None
