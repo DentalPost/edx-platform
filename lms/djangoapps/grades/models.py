@@ -364,7 +364,7 @@ class PersistentGradesEnabledFlag(ConfigurationModel):
         if not PersistentGradesEnabledFlag.is_enabled():
             return False
         elif course_id:
-            return CoursePersistentGradesFlag.subsection_grades_enabled(course_id)
+            return CoursePersistentGradesFlag.objects.get(course_id=course_id).order_by('-fetched_at')[0].enabled
         return True
 
     class Meta(object):
@@ -383,6 +383,7 @@ class CoursePersistentGradesFlag(ConfigurationModel):
     course. Only has an effect if the general
     flag above is set to True.
     """
+    KEY_FIELDS = ('course_id',)
 
     class Meta(object):
         app_label = "grades"
