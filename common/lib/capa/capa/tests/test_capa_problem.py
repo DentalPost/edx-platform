@@ -4,7 +4,6 @@ Test capa problem.
 import unittest
 
 from . import new_loncapa_problem
-from capa.capa_problem import DEFAULT_QUESTION_TEXT
 
 
 class CAPAProblemTest(unittest.TestCase):
@@ -150,7 +149,7 @@ class CAPAProblemTest(unittest.TestCase):
             }
         )
 
-    def test_default_question_text(self):
+    def test_empty_question_text(self):
         """
         Verify that default question text is shown when question is missing.
         """
@@ -169,7 +168,7 @@ class CAPAProblemTest(unittest.TestCase):
             {
                 '1_2':
                 {
-                    'label': DEFAULT_QUESTION_TEXT,
+                    'label': '',
                     'descriptions': {
                         'description_1_2_1': "Everybody needs somebody to talk to."
                     }
