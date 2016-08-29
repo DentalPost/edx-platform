@@ -88,13 +88,11 @@ def input_problem_answer(_, problem_type, correctness):
 
 
 @step(u'I submit a problem')
-def submit_problem():
+def submit_problem(step):
     # first scroll down so the loading mathjax button does not
     # cover up the Submit button
     world.browser.execute_script("window.scrollTo(0,1024)")
-    button_disabled = 'button.submit[disabled="disabled"]'
-    assert world.is_css_present(button_disabled)
-
+    assert world.is_css_not_present("button.submit.is-disabled")
     world.css_click("button.submit")
 
     # Wait for the problem to finish re-rendering
@@ -106,8 +104,7 @@ def assert_cant_submit_problem(step):   # pylint: disable=unused-argument
     # first scroll down so the loading mathjax button does not
     # cover up the Check button
     world.browser.execute_script("window.scrollTo(0,1024)")
-    button_disabled = 'button.submit[disabled="disabled"]'
-    assert world.is_css_present(button_disabled)
+    assert world.is_css_not_present("button.submit.is-disabled")
 
 
 @step(u'The "([^"]*)" problem displays a "([^"]*)" answer')

@@ -795,10 +795,12 @@ class @Problem
     #    text of submit button as well.
     if enable
       @submitButton.removeAttr 'disabled'
+      @submitButton.removeClass 'is-disabled'
       if changeText
         @submitButtonLabel.text(@submitButtonSubmitText)
     else
       @submitButton.attr({'disabled': 'disabled'})
+      @submitButton.addClass 'is-disabled'
       if changeText
         @submitButtonLabel.text(@submitButtonSubmittingText)
 
