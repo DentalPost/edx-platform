@@ -60,7 +60,7 @@ class CommerceConfiguration(ConfigurationModel):
             try:
                 return '{site_domain}{receipt_page}'.format(
                     site_domain=site.domain,
-                    receipt_page=site.configuration.receipt_page
+                    receipt_page=site.configuration.receipt_page  # pylint: disable=no-member
                 )
             except AttributeError:
                 logger.info("Site Configuration is not enabled for site (%s).", site)
