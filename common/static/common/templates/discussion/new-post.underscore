@@ -46,7 +46,7 @@
         <% } %>
     </div>
     <div>
-        <input type="submit" class="submit" value="<%- gettext('Add Post') %>">
-        <button type="button" class="cancel"><%- gettext('Cancel') %></button>
+        <button type="submit" class="btn-brand submit"><%- gettext('Add Post') %></button>
+        <button type="button" class="btn cancel"><%- gettext('Cancel') %></button>
     </div>
 </form>
