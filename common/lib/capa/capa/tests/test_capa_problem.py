@@ -41,7 +41,7 @@ class CAPAProblemTest(unittest.TestCase):
                 '1_2_1':
                 {
                     'label': 'Select the correct synonym of paranoid?',
-                    'descriptions': {'description_1_2_1': 'Only the paranoid survive.'}
+                    'descriptions': {'description_1_1_1': 'Only the paranoid survive.'}
                 }
             }
         )
@@ -152,8 +152,8 @@ class CAPAProblemTest(unittest.TestCase):
                 {
                     'label': '___ requires sacrifices.',
                     'descriptions': {
-                        'description_1_2_1': "The problem with trying to be the bad guy, there's always someone worse.",
-                        'description_1_2_2': "Anyone who looks the world as if it was a game of chess deserves to lose."
+                        'description_1_1_1': "The problem with trying to be the bad guy, there's always someone worse.",
+                        'description_1_1_2': "Anyone who looks the world as if it was a game of chess deserves to lose."
                     }
                 }
             }
@@ -180,7 +180,7 @@ class CAPAProblemTest(unittest.TestCase):
                 {
                     'label': DEFAULT_QUESTION_TEXT,
                     'descriptions': {
-                        'description_1_2_1': "Everybody needs somebody to talk to."
+                        'description_1_1_1': "Everybody needs somebody to talk to."
                     }
                 }
             }
@@ -278,12 +278,12 @@ class CAPAProblemTest(unittest.TestCase):
                 '1_2_1':
                 {
                     'label': 'Select the correct synonym of paranoid?',
-                    'descriptions': {'description_1_2_1': 'Only the paranoid survive.'}
+                    'descriptions': {'description_1_1_1': 'Only the paranoid survive.'}
                 },
                 '1_3_1':
                 {
                     'label': 'What Apple device competed with the portable CD player?',
-                    'descriptions': {'description_1_3_1': 'Device looks like an egg plant.'}
+                    'descriptions': {'description_1_2_1': 'Device looks like an egg plant.'}
                 }
             }
         )
@@ -362,6 +362,29 @@ class CAPAProblemTest(unittest.TestCase):
                 }
             }
         )
+
+    def test_single_inputtypes(self):
+        """
+        Verify that HTML is correctly rendered when there is single inputtype.
+        """
+        xml = """
+        <problem>
+            <choiceresponse>
+                <label>Select the correct synonym of paranoid?</label>
+                <description>Only the paranoid survive.</description>
+                <checkboxgroup>
+                    <choice correct="true">over-suspicious</choice>
+                    <choice correct="false">funny</choice>
+                </checkboxgroup>
+            </choiceresponse>
+        </problem>
+        """
+        problem = new_loncapa_problem(xml, use_capa_render_template=True)
+        problem_html = etree.XML(problem.get_html())
+
+        # verify that only no multi input group div is present
+        multi_inputs_group = problem_html.xpath('//div[@class="multi-inputs-group"]')
+        self.assertEqual(len(multi_inputs_group), 0)
 
 
 @ddt.ddt

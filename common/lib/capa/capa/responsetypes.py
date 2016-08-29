@@ -264,11 +264,11 @@ class LoncapaResponse(object):
         tree.set('aria-label', response_label)
 
         if self.xml.get('multiple_inputtypes'):
-            # add <div> to encapsulate all inputtypes
-            content = group_div = etree.SubElement(tree, 'div')
-            group_div.set('class', 'multi-inputs-group')
-            group_div.set('role', 'group')
-            group_div.set('aria-labelledby', self.xml.get('id'))
+            # add <div> to wrap all inputtypes
+            content = etree.SubElement(tree, 'div')
+            content.set('class', 'multi-inputs-group')
+            content.set('role', 'group')
+            content.set('aria-labelledby', self.xml.get('id'))
         else:
             content = tree
 
