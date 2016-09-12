@@ -40,6 +40,40 @@ $fg-min-width: 810px !default;
 // ----------------------------
 // #COLORS
 // ----------------------------
+
+
+//Main Color Variables
+
+// sbo begin
+$brand-blue: 			#00bbb9 !default;
+$brand-hr-blue: 		$brand-blue !default;
+$brand-green: 			#83bf23 !default;
+$brand-yellow: 			#feb000 !default;
+$brand-orange: 			#ff6700 !default;
+$brand-orange-light-gradient: 	#ffa366 !default;
+$brand-green2: 			#22ab31 !default;
+$brand-gray: 			#6c6c6c !default;
+$brand-gray-1: 			#cccccc !default;
+$brand-gray-2: 			#f2f2f2 !default;
+$brand-gray-3: 			#e9e9e9 !default;
+$brand-gray-75: 		lighten($brand-gray, 18.25%) !default;
+$brand-black: 			#2e2e2e !default;
+$brand-black-80: 		#585858 !default;
+$brand-white: 			rgb(255,255,255) !default;
+$brand-main-color: 		$brand-orange !default;
+$brand-secondary-color: 	$brand-orange !default;
+$brand-main-bg-color: 		$brand-orange !default;
+$brand-bg-color: 		#42abfb !default;
+$brand-light-color: 		#7ffb42 !default;
+$brand-dark-color: 		#4b4b4b !default;
+$brand-font-color: 		$brand-black !default;
+$brand-font-light-color: 	$brand-black-80 !default;
+$brand-font-very-light-color: 	$brand-gray-1 !default;
+$brand-link-color: 		$brand-dark-color !default;
+$brand-link-hover-color: 	$brand-light-color !default;
+$brand-shadow-color: 		$brand-gray !default;
+// sbo end
+
 $transparent: rgba(0,0,0,0) !default; // used when color value is needed for UI width/transitions but element is transparent
 
 $black:     rgb(0,0,0) !default;
